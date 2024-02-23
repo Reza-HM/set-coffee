@@ -55,14 +55,14 @@ a {
 .mySwiper .swiper-button-prev:after,
 .mySwiper .swiper-button-next:after {
   font-size: 26px !important;
-  color: #070707 !important;
+  color: #fff !important;
   font-weight: 1000;
 }
 
 .home-slider .swiper-button-prev:after,
 .home-slider .swiper-button-next:after {
   font-size: 14px !important;
-  color: #070707 !important;
+  color: #fff !important;
   font-weight: 1000;
 }
 
@@ -74,7 +74,7 @@ a {
 .gallery-slider .swiper-button-prev:after,
 .gallery-slider .swiper-button-next:after {
   font-size: 26px !important;
-  color: #070707 !important;
+  color: #fff !important;
   font-weight: 1000;
 }
 
