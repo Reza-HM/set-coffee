@@ -5,6 +5,8 @@ export interface IUser extends Document {
   email: string;
   phone: string;
   password: string;
+  role: string;
+  refreshToken: string;
 }
 
 const userSchema: Schema<IUser> = new Schema(
@@ -18,7 +20,12 @@ const userSchema: Schema<IUser> = new Schema(
       trim: true,
     },
     phone: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: false },
+    role: {
+      type: String,
+      default: "USER",
+    },
+    refreshToken: String,
   },
   { timestamps: true }
 );
