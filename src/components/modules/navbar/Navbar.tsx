@@ -1,12 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaShoppingCart, FaRegHeart } from "react-icons/fa";
 
-function Navbar() {
+type NavbarProps = {
+  username: string | undefined;
+};
+
+function Navbar({ username }: NavbarProps) {
   const [fixTop, setFixTop] = useState(false);
+
 
   useEffect(() => {
     const fixNavBarToTop = () => {
@@ -51,9 +56,15 @@ function Navbar() {
           <li>
             <Link href="/rules">قوانین</Link>
           </li>
-          {/* <li>
-            <Link href="/login-register">ورود / عضویت</Link>
-          </li> */}
+          {username ? (
+            <li>
+              <Link href="">{username}</Link>
+            </li>
+          ) : (
+            <li>
+              <Link href="/login-register">ورود / عضویت</Link>
+            </li>
+          )}
 
           {/* Start My-account section */}
           <div className={styles.dropdown}>

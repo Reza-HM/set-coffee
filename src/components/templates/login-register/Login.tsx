@@ -4,6 +4,7 @@ import Link from "next/link";
 import Sms from "./Sms";
 import { showSwal } from "@/utils/helpers";
 import { validateEmail, validatePassword } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 type LoginProps = {
   showRegisterForm: () => void;
@@ -13,6 +14,7 @@ const Login: FC<LoginProps> = ({ showRegisterForm }) => {
   const [isLoginWithOtp, setIsLoginWithOtp] = useState(false);
   const [password, setPassword] = useState("");
   const [phoneOrEmail, setPhoneOrEmail] = useState("");
+  const router = useRouter();
 
   const hideOtpForm = () => setIsLoginWithOtp(false);
 
@@ -60,6 +62,7 @@ const Login: FC<LoginProps> = ({ showRegisterForm }) => {
         "ورود به پنل کاربری",
         "بستن",
       ]);
+      router.push("/");
     } else if (res.status === 422 || res.status === 401) {
       showSwal("کاربری با این اطلاعات یافت نشد", "error", [
         "تلاش مجدد",

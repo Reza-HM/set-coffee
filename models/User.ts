@@ -6,7 +6,7 @@ export interface IUser extends Document {
   phone: string;
   password: string;
   role: string;
-  refreshToken?: string;
+  refreshToken: string;
 }
 
 const userSchema: Schema<IUser> = new Schema(

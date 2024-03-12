@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 interface TokenData {
   [key: string]: any;
@@ -16,7 +17,7 @@ const generateAccessToken = (data: TokenData): string => {
     throw new Error("Private key not provided");
   }
 
-  const token = jwt.sign({ ...data }, privateKey, { expiresIn: "60s" });
+  const token = jwt.sign({ ...data }, privateKey, { expiresIn: "60d" });
   return token;
 };
 
@@ -34,8 +35,12 @@ const verifyAccessToken = (token: string): TokenData | false => {
 
     const validationResult = jwt.verify(token, privateKey);
     return validationResult as TokenData;
-  } catch (err) {
-    console.error("Verify Token Error:", err);
+  } catch (err: any) {
+    if (err.name === "TokenExpiredError") {
+      console.error("Token has expired");
+    } else {
+      console.error("Verify Token Error:", err);
+    }
     return false;
   }
 };
