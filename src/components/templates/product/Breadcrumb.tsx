@@ -1,0 +1,19 @@
+import React, { FC } from "react";
+import styles from "./breadcrumb.module.css";
+
+type BreadCrumbProps = {
+  title: string;
+};
+const Breadcrumb: FC<BreadCrumbProps> = ({ title }) => {
+  return (
+    <section className={styles.breadcrumb}>
+      <a href="/">خانه </a>
+      <span>/</span>
+      <a href="/">همه موارد </a>
+      <span>/</span>
+      <p>{title}</p>
+    </section>
+  );
+};
+
+export default Breadcrumb;
