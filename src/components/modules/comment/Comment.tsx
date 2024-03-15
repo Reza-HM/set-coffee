@@ -19,7 +19,7 @@ const Comment: FC<Comment> = ({
         <div className={styles.main_details}>
           <div className={styles.user_info}>
             <strong>{username}</strong>
-            <p>{date.toLocaleDateString()}</p>
+            <p>{date.toString().slice(0, 10)}</p>
           </div>
           <div className={styles.stars}>
             {Array.from({ length: 5 }).map((_, index) => (

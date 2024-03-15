@@ -14,13 +14,13 @@ interface CommentsProps {
 const Comments: FC<CommentsProps> = ({ comments }) => {
   return (
     <div>
-      <p>نظرات (7) :</p>
+      <p>نظرات ({comments.length}) :</p>
       <hr />
       <main className={styles.comments}>
         <div className={styles.user_comments}>
           <p className={styles.title}>
-            7 دیدگاه برای کپسول قهوه SETPRESSO سازگار با دستگاه نسپرسو ( GOLD )
-            ده -10- عددی
+            {comments.length} دیدگاه برای کپسول قهوه SETPRESSO سازگار با دستگاه
+            نسپرسو ( GOLD ) ده -10- عددی
           </p>
           <div>
             {comments.map((comment: IComments) => (
