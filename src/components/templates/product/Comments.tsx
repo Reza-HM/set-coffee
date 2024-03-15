@@ -1,13 +1,21 @@
-import Comment from "@/components/modules/comment/Comment";
+import CommentComponent from "@/components/modules/comment/Comment";
 import styles from "./comments.module.css";
 import CommentForm from "./CommentForm";
+import { FC } from "react";
+import { Comment } from "../../../../models/Comment";
+interface IComments extends Comment {
+  _id: string;
+}
 
-const Comments = () => {
+interface CommentsProps {
+  comments: IComments[];
+}
+
+const Comments: FC<CommentsProps> = ({ comments }) => {
   return (
     <div>
       <p>نظرات (7) :</p>
       <hr />
-
       <main className={styles.comments}>
         <div className={styles.user_comments}>
           <p className={styles.title}>
@@ -15,11 +23,9 @@ const Comments = () => {
             ده -10- عددی
           </p>
           <div>
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
-            <Comment />
+            {comments.map((comment: IComments) => (
+              <CommentComponent {...comment} key={comment._id} />
+            ))}
           </div>
         </div>
         <div className={styles.form_bg}>

@@ -7,19 +7,27 @@ import MoreProducts from "@/components/templates/product/MoreProducts";
 import Footer from "@/components/modules/footer/Footer";
 import Navbar from "@/components/modules/navbar/Navbar";
 import authUser from "@/utils/getUserData";
+import connectToDB from "@/configs/db";
+import ProductModel from "../../../../models/Product";
 
-const product = async () => {
+const product = async ({ params }: { params: { id: string } }) => {
   const user = await authUser();
+  connectToDB();
+  const productID = params.id;
+  const product = await ProductModel.findOne({ _id: productID }).populate(
+    "comments"
+  );
+  console.log(product);
 
   return (
     <div className={styles.container}>
       <Navbar username={user?.name} />
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
-          <Details />
+          <Details product={JSON.parse(JSON.stringify(product))} />
           <Gallery />
         </div>
-        <Tabs />
+        <Tabs product={JSON.parse(JSON.stringify(product))} />
         <MoreProducts />
       </div>
       <Footer />

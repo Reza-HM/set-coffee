@@ -4,8 +4,15 @@ import styles from "./tabs.module.css";
 import Description from "./Description";
 import MoreInfoes from "./MoreInfoes";
 import Comments from "./Comments";
+import { Product } from "../../../../models/Product";
+interface IProduct extends Product {
+  _id: string;
+}
 
-const Tabs: React.FC = () => {
+interface DetailsProps {
+  product: IProduct;
+}
+const Tabs: React.FC<DetailsProps> = ({ product }) => {
   const [tab, setTab] = useState<string>("description");
 
   const handleTabChange: React.MouseEventHandler<HTMLInputElement> = (
@@ -66,7 +73,9 @@ const Tabs: React.FC = () => {
           {tab === "moreInfoes" && <MoreInfoes />}
         </section>
         <section className={styles.tabs_content}>
-          {tab === "comments" && <Comments />}
+          {tab === "comments" && (
+            <Comments comments={JSON.parse(JSON.stringify(product.comments))} />
+          )}
         </section>
       </div>
     </div>

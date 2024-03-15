@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    connectToDB();
     const products = await ProductModel.find({}, "-__v").populate("comments");
     return Response.json(products);
   } catch (err: any) {
