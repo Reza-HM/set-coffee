@@ -49,7 +49,7 @@ const productSchema: Schema<ProductDocument> = new Schema({
   },
   score: {
     type: Number,
-    required: true,
+    default: 5,
   },
   tags: {
     type: [String],

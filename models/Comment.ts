@@ -7,7 +7,7 @@ export interface Comment {
   email: string;
   score: number;
   date: Date;
-  product: mongoose.Types.ObjectId | ProductDocument;
+  productID: mongoose.Types.ObjectId | ProductDocument;
 }
 
 export interface CommentDocument extends Comment, Document {}
@@ -33,10 +33,10 @@ const commentSchema: Schema<CommentDocument> = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: () => Date.now(),
     immutable: false,
   },
-  product: {
+  productID: {
     type: Schema.Types.ObjectId,
     ref: "Product",
   },
