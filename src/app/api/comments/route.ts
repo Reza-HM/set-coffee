@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
+  await CommentModel.findOneAndUpdate({}, { isAccept: true });
   const comments = await CommentModel.find({}, "-__v");
   return Response.json(comments);
 }

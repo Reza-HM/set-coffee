@@ -1,6 +1,45 @@
 import { IoMdStar } from "react-icons/io";
 import styles from "./commentForm.module.css";
-const CommentForm = () => {
+import { FC, MouseEvent, useState } from "react";
+import { showSwal } from "@/utils/helpers";
+
+type CommentFormProps = {
+  productID: string;
+};
+
+const CommentForm: FC<CommentFormProps> = ({ productID }) => {
+  const [username, setUsername] = useState("");
+  const [body, setBody] = useState("");
+  const [email, setEmail] = useState("");
+  const [score, setScore] = useState(5);
+
+  const setCommentScore = (score: number): void => {
+    setScore(score);
+    showSwal("امتیاز شما با موفقیت ثبت شد!", "success", [
+      "بستن",
+      "ادامه ثبت کامنت",
+    ]);
+  };
+
+  const submitComment = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const comment = { username, email, body, score, productID };
+
+    const res = await fetch(`/api/comments`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(comment),
+    });
+
+    if (res.status === 201) {
+      showSwal("کامنت مورد نظر با موفقیت ثبت شد.", "success", ["بستن", "عالی"]);
+      setUsername("");
+      setEmail("");
+      setScore(5);
+      setBody("");
+    }
+  };
+
   return (
     <div className={styles.form}>
       <p className={styles.title}>دیدگاه خود را بنویسید</p>
@@ -11,11 +50,11 @@ const CommentForm = () => {
       <div className={styles.rate}>
         <p>امتیاز شما :</p>
         <div>
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
+          <IoMdStar onClick={() => setCommentScore(1)} />
+          <IoMdStar onClick={() => setCommentScore(2)} />
+          <IoMdStar onClick={() => setCommentScore(3)} />
+          <IoMdStar onClick={() => setCommentScore(4)} />
+          <IoMdStar onClick={() => setCommentScore(5)} />
         </div>
       </div>
       <div className={styles.group}>
@@ -23,7 +62,13 @@ const CommentForm = () => {
           دیدگاه شما
           <span style={{ color: "red" }}>*</span>
         </label>
-        <textarea id="comment" name="comment" placeholder=""></textarea>
+        <textarea
+          id="comment"
+          name="comment"
+          placeholder=""
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        ></textarea>
       </div>
       <div className={styles.groups}>
         <div className={styles.group}>
@@ -31,14 +76,22 @@ const CommentForm = () => {
             نام
             <span style={{ color: "red" }}>*</span>
           </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
         <div className={styles.group}>
           <label htmlFor="">
             ایمیل
             <span style={{ color: "red" }}>*</span>
           </label>
-          <input type="email" />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
       </div>
       <div className={styles.checkbox}>
@@ -49,7 +102,7 @@ const CommentForm = () => {
           می‌نویسم.
         </p>
       </div>
-      <button>ثبت</button>
+      <button onClick={submitComment}>ثبت</button>
     </div>
   );
 };

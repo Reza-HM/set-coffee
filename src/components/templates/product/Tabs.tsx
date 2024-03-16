@@ -1,18 +1,18 @@
 "use client";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, FC } from "react";
 import styles from "./tabs.module.css";
 import Description from "./Description";
 import MoreInfoes from "./MoreInfoes";
 import Comments from "./Comments";
-import { Product } from "../../../../models/Product";
-interface IProduct extends Product {
+import { IProduct } from "../../../../models/Product";
+interface IProducts extends IProduct {
   _id: string;
 }
 
 interface DetailsProps {
-  product: IProduct;
+  product: IProducts;
 }
-const Tabs: React.FC<DetailsProps> = ({ product }) => {
+const Tabs: FC<DetailsProps> = ({ product }) => {
   const [tab, setTab] = useState<string>("description");
 
   const handleTabChange: React.MouseEventHandler<HTMLInputElement> = (
@@ -60,7 +60,7 @@ const Tabs: React.FC<DetailsProps> = ({ product }) => {
         <li title="Shipping">
           <label htmlFor="comments" role="button">
             {" "}
-            نظرات (7){" "}
+            نظرات ({product.comments.length}){" "}
           </label>
         </li>
       </ul>
@@ -74,7 +74,10 @@ const Tabs: React.FC<DetailsProps> = ({ product }) => {
         </section>
         <section className={styles.tabs_content}>
           {tab === "comments" && (
-            <Comments comments={JSON.parse(JSON.stringify(product.comments))} />
+            <Comments
+              productID={product._id}
+              comments={JSON.parse(JSON.stringify(product.comments))}
+            />
           )}
         </section>
       </div>

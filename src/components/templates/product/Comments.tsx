@@ -2,16 +2,17 @@ import CommentComponent from "@/components/modules/comment/Comment";
 import styles from "./comments.module.css";
 import CommentForm from "./CommentForm";
 import { FC } from "react";
-import { Comment } from "../../../../models/Comment";
-interface IComments extends Comment {
+import { IComment } from "../../../../models/Comment";
+interface IComments extends IComment {
   _id: string;
 }
 
 interface CommentsProps {
   comments: IComments[];
+  productID: string;
 }
 
-const Comments: FC<CommentsProps> = ({ comments }) => {
+const Comments: FC<CommentsProps> = ({ comments, productID }) => {
   return (
     <div>
       <p>نظرات ({comments.length}) :</p>
@@ -23,13 +24,16 @@ const Comments: FC<CommentsProps> = ({ comments }) => {
             نسپرسو ( GOLD ) ده -10- عددی
           </p>
           <div>
-            {comments.map((comment: IComments) => (
-              <CommentComponent {...comment} key={comment._id} />
-            ))}
+            {comments.map(
+              (comment) =>
+                comment.isAccept && (
+                  <CommentComponent {...comment} key={comment._id} />
+                )
+            )}
           </div>
         </div>
         <div className={styles.form_bg}>
-          <CommentForm />
+          <CommentForm productID={productID} />
         </div>
       </main>
     </div>

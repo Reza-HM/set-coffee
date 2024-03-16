@@ -17,7 +17,8 @@ const product = async ({ params }: { params: { id: string } }) => {
   const product = await ProductModel.findOne({ _id: productID }).populate(
     "comments"
   );
-  console.log(product);
+
+  const relatedProducts = await ProductModel.find({ smell: product.smell });
 
   return (
     <div className={styles.container}>
@@ -28,7 +29,7 @@ const product = async ({ params }: { params: { id: string } }) => {
           <Gallery />
         </div>
         <Tabs product={JSON.parse(JSON.stringify(product))} />
-        <MoreProducts />
+        <MoreProducts relatedProducts={relatedProducts} />
       </div>
       <Footer />
     </div>

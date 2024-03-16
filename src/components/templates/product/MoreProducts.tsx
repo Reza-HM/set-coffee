@@ -4,8 +4,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import { FC } from "react";
+import { IProduct } from "../../../../models/Product";
 
-const MoreProducts = () => {
+type MoreProductsProps = {
+  relatedProducts: IProduct[];
+};
+
+const MoreProducts: FC<MoreProductsProps> = ({ relatedProducts }) => {
   return (
     <div data-aos="fade-right">
       <section>
@@ -28,30 +34,11 @@ const MoreProducts = () => {
         modules={[Navigation]}
         className="mySwiper "
       >
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product />
-        </SwiperSlide>
+        {relatedProducts.map((product, index) => (
+          <SwiperSlide>
+            <Product {...product} key={index} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

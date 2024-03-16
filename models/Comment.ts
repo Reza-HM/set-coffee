@@ -1,20 +1,17 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
-import { ProductDocument } from "./Product";
+import productSchema from "./Product";
 
-export interface Comment {
+export interface IComment {
   username: string;
   body: string;
   email: string;
   score: number;
+  isAccept: boolean;
   date: Date;
-  productID: mongoose.Types.ObjectId | ProductDocument;
+  productID: mongoose.Types.ObjectId;
 }
 
-export interface CommentDocument extends Comment, Document {}
-
-export interface CommentModel extends Model<CommentDocument> {}
-
-const commentSchema: Schema<CommentDocument> = new Schema({
+const commentSchema: Schema<IComment> = new Schema({
   username: {
     type: String,
     required: true,
@@ -31,6 +28,10 @@ const commentSchema: Schema<CommentDocument> = new Schema({
     type: Number,
     required: true,
   },
+  isAccept: {
+    type: Boolean,
+    default: false,
+  },
   date: {
     type: Date,
     default: () => Date.now(),
@@ -42,8 +43,7 @@ const commentSchema: Schema<CommentDocument> = new Schema({
   },
 });
 
-const CommentModel: CommentModel =
-  mongoose.models.Comment ||
-  mongoose.model<CommentDocument>("Comment", commentSchema);
+const CommentModel =
+  mongoose.models.Comment || mongoose.model<IComment>("Comment", commentSchema);
 
 export default CommentModel;

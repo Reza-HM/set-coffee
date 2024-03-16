@@ -5,15 +5,15 @@ import { TbSwitch3 } from "react-icons/tb";
 import { FaTelegram, FaLinkedinIn, FaPinterest } from "react-icons/fa";
 import styles from "./details.module.css";
 import Breadcrumb from "./Breadcrumb";
-import { Product } from "../../../../models/Product";
+import { IProduct } from "../../../../models/Product";
 import { FC } from "react";
 
-interface IProduct extends Product {
+interface IProducts extends IProduct {
   _id: string;
 }
 
 interface DetailsProps {
-  product: IProduct;
+  product: IProducts;
 }
 
 const Details: FC<DetailsProps> = ({ product }) => {

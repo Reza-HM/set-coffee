@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema, Model, Types } from "mongoose";
-import { CommentDocument } from "./Comment";
+import mongoose, { Schema, Types } from "mongoose";
+import commentSchema from "./Comment";
 
-export interface Product {
+export interface IProduct {
   name: string;
   price: number;
   shortDescription: string;
@@ -11,14 +11,10 @@ export interface Product {
   smell: string;
   score: number;
   tags: string[];
-  comments: Types.ObjectId[] | CommentDocument[];
+  comments: Types.ObjectId[];
 }
 
-export interface ProductDocument extends Product, Document {}
-
-export interface ProductModel extends Model<ProductDocument> {}
-
-const productSchema: Schema<ProductDocument> = new Schema({
+const productSchema: Schema<IProduct> = new Schema({
   name: {
     type: String,
     required: true,
@@ -63,8 +59,7 @@ const productSchema: Schema<ProductDocument> = new Schema({
   ],
 });
 
-const ProductModel: ProductModel =
-  mongoose.models.Product ||
-  mongoose.model<ProductDocument>("Product", productSchema);
+const ProductModel =
+  mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
 
 export default ProductModel;
