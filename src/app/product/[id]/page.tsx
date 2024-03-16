@@ -14,9 +14,11 @@ const product = async ({ params }: { params: { id: string } }) => {
   const user = await authUser();
   connectToDB();
   const productID = params.id;
-  const product = await ProductModel.findOne({ _id: productID }).populate(
-    "comments"
-  );
+  const product = await ProductModel.findOne({ _id: productID });
+
+  if (product.comments.length > 0) {
+    await product.populate("comments");
+  }
 
   const relatedProducts = await ProductModel.find({ smell: product.smell });
 
@@ -25,7 +27,10 @@ const product = async ({ params }: { params: { id: string } }) => {
       <Navbar username={user?.name} />
       <div data-aos="fade-up" className={styles.contents}>
         <div className={styles.main}>
-          <Details product={JSON.parse(JSON.stringify(product))} />
+          <Details
+            product={JSON.parse(JSON.stringify(product))}
+            userID={user?._id}
+          />
           <Gallery />
         </div>
         <Tabs product={JSON.parse(JSON.stringify(product))} />
