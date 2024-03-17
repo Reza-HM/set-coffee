@@ -8,10 +8,15 @@ import CommentModel from "../../../../../models/Comment";
 
 const Latest = async () => {
   connectToDB();
+
   const products = await ProductModel.find({});
+
   for (const product of products) {
     if (product.comments.length > 0) {
-      await product.populate("comments");
+      await product.populate({
+        path: "comments",
+        model: CommentModel,
+      });
     }
   }
 

@@ -1,8 +1,9 @@
 "use client";
 import { showSwal } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { MouseEvent, useState } from "react";
 import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 
 type AddToWishlistProps = {
   product: string;
@@ -10,42 +11,48 @@ type AddToWishlistProps = {
 };
 
 async function AddToWishlist({ product, user }: AddToWishlistProps) {
-  const [isProductAddedToWishlist, setIsProductAddedToWishlist] =
-    useState(false);
   const router = useRouter();
 
-  const addProductToWishlist = async () => {
-    const body = { user, product };
+  const addProductToWishlist = async (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (!user) {
+      return showSwal(
+        "برای اضافه کردن به علاقه مندی‌ها لطفا ابتدا لاگین بکنین",
+        "error",
+        ["فهمیدم", "بستن"]
+      );
+    }
+
+    const wish = {
+      user,
+      product,
+    };
 
     const res = await fetch("/api/wishlist", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(wish),
     });
 
+    console.log("Response ->", res);
+
     if (res.status === 201) {
-      setIsProductAddedToWishlist(true);
-      showSwal(
-        "محصول با موفقیت به لیست علاقه‌مندی‌های شما اضافه شد",
-        "success",
-        ["بستن", "متوجه شدم"]
-      );
-      router.replace("/wishlist");
+      showSwal("محصول مورد نظر به علاقه‌مندی‌ها اضافه شد", "success", [
+        "فهمیدم",
+        "بستن",
+      ]);
+      router.push("/wishlist");
     }
   };
+
   return (
     <>
-      {isProductAddedToWishlist ? (
-        <div>
-          <CiHeart fill="orange" />
-          <span>محصول جزو علاقه‌مندی‌های شماست</span>
-        </div>
-      ) : (
-        <div onClick={addProductToWishlist}>
-          <CiHeart />
-          <span>افزودن به علاقه مندی ها</span>
-        </div>
-      )}
+      <div onClick={addProductToWishlist}>
+        <CiHeart />
+        <span>افزودن به علاقه مندی ها</span>
+      </div>
     </>
   );
 }

@@ -1,14 +1,11 @@
 import { FaFacebookF, FaStar, FaTwitter } from "react-icons/fa";
 import { IoCheckmark } from "react-icons/io5";
-import { CiHeart } from "react-icons/ci";
 import { TbSwitch3 } from "react-icons/tb";
 import { FaTelegram, FaLinkedinIn, FaPinterest } from "react-icons/fa";
 import styles from "./details.module.css";
 import Breadcrumb from "./Breadcrumb";
 import { IProduct } from "../../../../models/Product";
-import { FC, useState } from "react";
-import { showSwal } from "@/utils/helpers";
-import { useRouter } from "next/navigation";
+import { FC } from "react";
 import AddToWishlist from "./AddToWishlist";
 
 interface IProducts extends IProduct {

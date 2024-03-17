@@ -18,7 +18,10 @@ const product = async ({ params }: { params: { id: string } }) => {
   const product = await ProductModel.findOne({ _id: productID });
 
   if (product.comments.length > 0) {
-    await product.populate("comments");
+    await product.populate({
+      path: "comments",
+      model: CommentModel,
+    });
   }
   const relatedProducts = await ProductModel.find({ smell: product.smell });
 

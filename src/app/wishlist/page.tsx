@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa";
 import wishlistModel from "../../../models/Wishlist";
 import authUser from "@/utils/getUserData";
 import ProductModel from "../../../models/Product";
+import UserModel from "../../../models/User";
 
 const page = async () => {
   let wishes: any[] = [];
@@ -17,7 +18,15 @@ const page = async () => {
   if (user) {
     wishes = await wishlistModel
       .find({ user: user._id })
-      .populate("product", "name price score")
+      .populate({
+        path: "product",
+        model: ProductModel,
+        select: "name price score",
+      })
+      .populate({
+        path: "user",
+        model: UserModel,
+      })
       .lean();
   }
 
