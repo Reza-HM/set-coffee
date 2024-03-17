@@ -1,11 +1,9 @@
 import Link from "next/link";
 import styles from "./product.module.css";
-import { FaRegStar, FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
-import { IProduct } from "../../../../models/Product";
-import { FC } from "react";
 
-const Card = ({ name, price, score }: any) => {
+const Card = ({ name, price, score, _id }: any) => {
   console.log(name);
   console.log(price);
 
@@ -30,13 +28,13 @@ const Card = ({ name, price, score }: any) => {
       </div>
 
       <div className={styles.details}>
-        <Link href={"/"}>{name}</Link>
+        <Link href={`/product/${_id}`}>{name}</Link>
         <div>
           {Array.from({ length: 5 }).map((_, index) => (
             <FaStar key={index} color={index < score ? "gold" : "gray"} />
           ))}
         </div>
-        <span>{price} تومان</span>
+        <span>{price?.toLocaleString()} تومان</span>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import Navbar from "@/components/modules/navbar/Navbar";
 import authUser from "@/utils/getUserData";
 import connectToDB from "@/configs/db";
 import ProductModel from "../../../../models/Product";
+import CommentModel from "../../../../models/Comment";
 
 const product = async ({ params }: { params: { id: string } }) => {
   const user = await authUser();
@@ -19,7 +20,6 @@ const product = async ({ params }: { params: { id: string } }) => {
   if (product.comments.length > 0) {
     await product.populate("comments");
   }
-
   const relatedProducts = await ProductModel.find({ smell: product.smell });
 
   return (
@@ -34,7 +34,9 @@ const product = async ({ params }: { params: { id: string } }) => {
           <Gallery />
         </div>
         <Tabs product={JSON.parse(JSON.stringify(product))} />
-        <MoreProducts relatedProducts={relatedProducts} />
+        <MoreProducts
+          relatedProducts={JSON.parse(JSON.stringify(relatedProducts))}
+        />
       </div>
       <Footer />
     </div>

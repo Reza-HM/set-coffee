@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import wishlistModel from "../../../models/Wishlist";
 import authUser from "@/utils/getUserData";
+import ProductModel from "../../../models/Product";
 
 const page = async () => {
   let wishes: any[] = [];

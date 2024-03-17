@@ -4,13 +4,14 @@ import { FaChevronLeft } from "react-icons/fa6";
 import Product from "@/components/modules/product/Product";
 import connectToDB from "@/configs/db";
 import ProductModel from "../../../../../models/Product";
+import CommentModel from "../../../../../models/Comment";
 
 const Latest = async () => {
   connectToDB();
-  const products = await ProductModel.find({}).populate("comments");
+  const products = await ProductModel.find({});
   for (const product of products) {
     if (product.comments.length > 0) {
-      await product.populate();
+      await product.populate("comments");
     }
   }
 
@@ -28,8 +29,8 @@ const Latest = async () => {
         </Link>
       </section>
       <main data-aos="fade-up" className={styles.products}>
-        {allProducts.map((product) => (
-          <Product {...product} />
+        {allProducts.map((product: any) => (
+          <Product {...product} key={product._id} />
         ))}
       </main>
     </div>
