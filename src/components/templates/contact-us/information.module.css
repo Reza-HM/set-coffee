@@ -18,7 +18,7 @@
   justify-content: right;
   gap: 14px;
   flex-direction: row-reverse;
-  align-items: start;
+  align-items: flex-start;
   color: gray;
 }
 .Information div svg {
