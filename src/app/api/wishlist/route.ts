@@ -18,7 +18,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await wishlistModel.create({ user, product });
+    const wish = await wishlistModel.findOne({ user, product });
+
+    if (!wish) {
+      await wishlistModel.create({ user, product });
+    }
 
     return Response.json(
       { message: "Product added to the wishlist SUCCESSFULLY!" },
