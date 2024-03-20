@@ -12,7 +12,7 @@ type LayoutProps = {
 const Layout = async ({ children }: LayoutProps) => {
   const user = await authUser();
 
-  if (!user) {
+  if (!user?.name) {
     redirect("/login-register");
   }
 
