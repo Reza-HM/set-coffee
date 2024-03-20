@@ -10,9 +10,9 @@ const page = async () => {
   connectToDB();
   const user: any = await authUser();
   const comments = await Commentmodel.find(
-    { username: String(user?.name) },
+    { username: user?.name },
     "-__v"
-  ).populate({ path: "productID", model: ProductModel  });
+  ).populate({ path: "productID", model: ProductModel, select: "name" });
   console.log(user.comments);
 
   return (
