@@ -2,7 +2,7 @@
 import styles from "./product.module.css";
 import Link from "next/link";
 import { IoMdStar } from "react-icons/io";
-// import swal from "sweetalert";
+import swal from "sweetalert";
 
 type CardProps = {
   _id: string;
@@ -12,13 +12,29 @@ type CardProps = {
 };
 
 const Card = ({ price, score, name, _id }: CardProps) => {
-  // const removeProduct = (productId: string) => {
-  //   swal({
-  //     title: "آیا از حذف محصول اطمینان دارید؟",
-  //     icon: "warning",
-  //     buttons: ["نه", "آره"],
-  //   }).then((result) => {});
-  // };
+  const removeProduct = () => {
+    swal({
+      title: "آیا از حذف محصول اطمینان دارید؟",
+      icon: "warning",
+      buttons: ["نه", "آره"],
+    }).then(async (result) => {
+      if (result) {
+        const res = await fetch(`/api/wishlist/${_id}`, {
+          method: "DELETE",
+        });
+
+        if (res.status === 200) {
+          swal({
+            title: "محصول با موفقیت از علاقه مندی‌ها حذف شد",
+            icon: "success",
+            buttons: ["بستن", "فهمیدم"],
+          }).then(() => {
+            location.reload();
+          });
+        }
+      }
+    });
+  };
 
   return (
     <div className={styles.card}>
@@ -39,10 +55,7 @@ const Card = ({ price, score, name, _id }: CardProps) => {
         </div>
         <span>{price?.toLocaleString()} تومان</span>
       </div>
-      <button
-        // onClick={() => removeProduct(null)}
-        className={styles.delete_btn}
-      >
+      <button onClick={removeProduct} className={styles.delete_btn}>
         حذف محصول{" "}
       </button>
     </div>

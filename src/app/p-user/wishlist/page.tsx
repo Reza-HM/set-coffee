@@ -29,7 +29,7 @@ const page = async () => {
                 key={wish._id}
                 name={wish.product.name}
                 price={wish.product.price}
-                _id={wish.product._id.toString()}
+                _id={String(wish.product._id)}
                 score={wish.product.score}
               />
             ))}
