@@ -35,7 +35,13 @@ const Latest = async () => {
       </section>
       <main data-aos="fade-up" className={styles.products}>
         {allProducts.map((product: any) => (
-          <Product {...product} key={product._id} />
+          <Product
+            name={product.name}
+            price={product.price}
+            _id={String(product._id)}
+            score={product.score}
+            key={product._id}
+          />
         ))}
       </main>
     </div>

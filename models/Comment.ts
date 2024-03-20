@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 import productSchema from "./Product";
+import userSchema from "./User";
 
 export interface IComment {
   username: string;
@@ -9,6 +10,7 @@ export interface IComment {
   isAccept: boolean;
   date: Date;
   productID: mongoose.Types.ObjectId;
+  user: mongoose.Types.ObjectId;
 }
 
 const commentSchema: Schema<IComment> = new Schema({
@@ -40,6 +42,10 @@ const commentSchema: Schema<IComment> = new Schema({
   productID: {
     type: Schema.Types.ObjectId,
     ref: "Product",
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 

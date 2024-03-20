@@ -4,9 +4,6 @@ import { FaStar } from "react-icons/fa";
 import { CiSearch, CiHeart } from "react-icons/ci";
 
 const Card = ({ name, price, score, _id }: any) => {
-  console.log(name);
-  console.log(price);
-
   return (
     <div className={styles.card}>
       <div className={styles.details_container}>

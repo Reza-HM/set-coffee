@@ -5,7 +5,7 @@ const connectToDB = async (): Promise<boolean> => {
     if (mongoose.connections[0]?.readyState === 1) {
       return true;
     } else {
-      await mongoose.connect(process.env.MONGO_URL as string);
+      await mongoose.connect("mongodb://localhost:27017/set-coffee");
       console.log("MongoDB is Connected!");
     }
   } catch (err) {
