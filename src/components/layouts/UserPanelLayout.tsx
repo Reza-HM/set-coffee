@@ -19,9 +19,9 @@ const Layout = async ({ children }: LayoutProps) => {
   return (
     <div className={styles.layout}>
       <section className={styles.section}>
-        <Sidebar />
+        <Sidebar name={user?.name} />
         <div className={styles.contents}>
-          <Topbar />
+          <Topbar name={user?.name} role={user?.role} />
           {children}
         </div>
       </section>

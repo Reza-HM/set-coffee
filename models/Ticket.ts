@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import DepartmentModel from "./Department";
+import UserModel from "./User";
 import SubDepartmentModel from "./SubDepartment";
 
 const schema = new mongoose.Schema(
@@ -10,6 +11,11 @@ const schema = new mongoose.Schema(
     },
     body: {
       type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     department: {
