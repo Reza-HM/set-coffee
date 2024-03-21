@@ -1,29 +1,52 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/p-user/sendTicket.module.css";
 import Link from "next/link";
 import { IoIosSend } from "react-icons/io";
 
 interface Department {
+  _id: string;
+  title: string;
+}
+
+interface SubDepartment {
+  _id: string;
   title: string;
 }
 
 function SendTicket() {
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-  const [department, setDepartment] = useState<Department[]>([]);
-  const [subDepartment, setSubDepartment] = useState<string[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [subDepartments, setSubDepartments] = useState<SubDepartment[]>([]);
+  const [departmentID, setDepartmentID] = useState<string>("");
   const [priority, setPriority] = useState<number>(1);
 
   useEffect(() => {
     const getDepartments = async () => {
       const res = await fetch("/api/departments");
       const data: Department[] = await res.json();
-      setDepartment([...data]);
+      setDepartments(data);
     };
 
     getDepartments();
   }, []);
+
+  useEffect(() => {
+    const getSubDepartments = async () => {
+      if (departmentID !== "") {
+        const res = await fetch(`/api/departments/sub/${departmentID}`);
+
+        if (res.status === 200) {
+          const data: SubDepartment[] = await res.json();
+          setSubDepartments(data);
+        }
+      }
+    };
+
+    getSubDepartments();
+  }, [departmentID]);
 
   return (
     <main className={styles.container}>
@@ -35,29 +58,43 @@ function SendTicket() {
       <div className={styles.content}>
         <div className={styles.group}>
           <label>دپارتمان را انتخاب کنید:</label>
-          <select>
-            <option value={-1}>لطفا دپارتمان را انتخاب نمایید</option>
+          <select onChange={(event) => setDepartmentID(event.target.value)}>
+            <option value="">لطفا دپارتمان را انتخاب نمایید</option>
 
-            {department.map((department) => (
-              <option value={department.title}>{department.title}</option>
+            {departments.map((department) => (
+              <option key={department._id} value={department._id}>
+                {department.title}
+              </option>
             ))}
           </select>
         </div>
         <div className={styles.group}>
           <label>نوع تیکت را انتخاب کنید:</label>
           <select>
-            <option>لطفا یک مورد را انتخاب نمایید.</option>
+            <option value="">لطفا یک مورد را انتخاب نمایید</option>
 
-            <option value={"پشتیبانی"}>پشتیبانی </option>
+            {subDepartments.map((subDepartment) => (
+              <option key={subDepartment._id} value={subDepartment._id}>
+                {subDepartment.title}{" "}
+              </option>
+            ))}
           </select>
         </div>
         <div className={styles.group}>
           <label>عنوان تیکت را وارد کنید:</label>
-          <input placeholder="عنوان..." type="text" />
+          <input
+            placeholder="عنوان..."
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
         </div>
         <div className={styles.group}>
           <label>سطح اولویت تیکت را انتخاب کنید:</label>
-          <select>
+          <select
+            value={priority}
+            onChange={(event) => setPriority(parseInt(event.target.value))}
+          >
             <option>لطفا یک مورد را انتخاب نمایید.</option>
             <option value="3">کم</option>
             <option value="2">متوسط</option>
@@ -67,7 +104,11 @@ function SendTicket() {
       </div>
       <div className={styles.group}>
         <label>محتوای تیکت را وارد نمایید:</label>
-        <textarea rows={10}></textarea>
+        <textarea
+          rows={10}
+          value={body}
+          onChange={(event) => setBody(event.target.value)}
+        ></textarea>
       </div>
       <div className={styles.uploader}>
         <span>حداکثر اندازه: 6 مگابایت</span>
