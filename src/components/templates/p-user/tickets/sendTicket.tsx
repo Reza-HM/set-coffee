@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import styles from "@/styles/p-user/sendTicket.module.css";
 import Link from "next/link";
 import { IoIosSend } from "react-icons/io";
+import { showSwal } from "@/utils/helpers";
 
 interface Department {
   _id: string;
@@ -20,7 +21,8 @@ function SendTicket() {
   const [body, setBody] = useState<string>("");
   const [departments, setDepartments] = useState<Department[]>([]);
   const [subDepartments, setSubDepartments] = useState<SubDepartment[]>([]);
-  const [departmentID, setDepartmentID] = useState<string>("");
+  const [departmentID, setDepartmentID] = useState<string>("-1");
+  const [subDepartmentID, setSubDepartmentID] = useState<string>("-1");
   const [priority, setPriority] = useState<number>(1);
 
   useEffect(() => {
@@ -48,6 +50,38 @@ function SendTicket() {
     getSubDepartments();
   }, [departmentID]);
 
+  const sendTicketHandler = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    const ticketBody = {
+      title,
+      body,
+      department: departmentID,
+      subDepartment: subDepartmentID,
+      priority,
+    };
+
+    const res = await fetch("/api/tickets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ticketBody),
+    });
+
+    if (res.ok) {
+      showSwal("تیکت شما با موفقیت ارسال شد.", "success", [
+        "بستن",
+        "بسیار عالی",
+      ]);
+      setTitle("");
+      setBody("");
+      setDepartmentID("-1");
+      setSubDepartmentID("-1");
+      setPriority(-1);
+    }
+  };
+
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>
@@ -59,7 +93,7 @@ function SendTicket() {
         <div className={styles.group}>
           <label>دپارتمان را انتخاب کنید:</label>
           <select onChange={(event) => setDepartmentID(event.target.value)}>
-            <option value="">لطفا دپارتمان را انتخاب نمایید</option>
+            <option value="-1">لطفا دپارتمان را انتخاب نمایید</option>
 
             {departments.map((department) => (
               <option key={department._id} value={department._id}>
@@ -70,8 +104,8 @@ function SendTicket() {
         </div>
         <div className={styles.group}>
           <label>نوع تیکت را انتخاب کنید:</label>
-          <select>
-            <option value="">لطفا یک مورد را انتخاب نمایید</option>
+          <select onChange={(event) => setSubDepartmentID(event.target.value)}>
+            <option value="-1">لطفا یک مورد را انتخاب نمایید</option>
 
             {subDepartments.map((subDepartment) => (
               <option key={subDepartment._id} value={subDepartment._id}>
@@ -95,10 +129,10 @@ function SendTicket() {
             value={priority}
             onChange={(event) => setPriority(parseInt(event.target.value))}
           >
-            <option>لطفا یک مورد را انتخاب نمایید.</option>
-            <option value="3">کم</option>
-            <option value="2">متوسط</option>
-            <option value="1">بالا</option>
+            <option value={-1}>لطفا یک مورد را انتخاب نمایید.</option>
+            <option value={1}>کم</option>
+            <option value={2}>متوسط</option>
+            <option value={3}>بالا</option>
           </select>
         </div>
       </div>
@@ -116,7 +150,7 @@ function SendTicket() {
         <input type="file" />
       </div>
 
-      <button className={styles.btn}>
+      <button className={styles.btn} onClick={sendTicketHandler}>
         <IoIosSend />
         ارسال تیکت
       </button>
