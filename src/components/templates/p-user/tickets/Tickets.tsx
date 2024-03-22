@@ -5,7 +5,22 @@ import Link from "next/link";
 // import Box from "@/components/templates/p-user/tickets/box/Box";
 import Ticket from "./Ticket";
 
-function Tickets({ tickets }) {
+export type TicketProps = {
+  _id: string;
+  title: string;
+  body: string;
+  department: string;
+  subDepartment: string;
+  priority: number;
+  hasAnswer: boolean;
+  createdAt: Date;
+};
+
+type TicketsProps = {
+  tickets: TicketProps[];
+};
+
+function Tickets({ tickets }: TicketsProps) {
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>
