@@ -37,6 +37,10 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isItAnswer: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
