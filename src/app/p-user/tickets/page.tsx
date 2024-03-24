@@ -6,6 +6,7 @@ import authUser from "@/utils/getUserData";
 import DepartmentModel from "../../../../models/Department";
 
 const page = async () => {
+  
   connectToDB();
   const user = await authUser();
   const tickets = await TicketModel.find({ user: user?._id }).populate({
