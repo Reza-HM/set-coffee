@@ -33,7 +33,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           />
           {AnswerTicket && (
             <Answer
-              type="admin "
+              type="admin"
               username={ticket.user.name}
               body={ticket.body}
               date={ticket.createdAt}
