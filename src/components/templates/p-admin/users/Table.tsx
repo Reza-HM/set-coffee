@@ -42,19 +42,43 @@ export default function DataTable({ users, title }: DataTableProps) {
       buttons: ["نه", "آره"],
     }).then(async (result) => {
       if (result) {
-        const res = await fetch("/api/user", {
+        const res = await fetch(`/api/user/${userID}`, {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: userID }),
         });
 
-        if (res.status === 200) {
+        if (res.ok) {
           swal({
             title: "کاربر مورد نظر با موفقیت حذف شد",
             icon: "success",
             buttons: ["فهمیدم", "بستن"],
+          }).then(() => {
+            router.refresh();
+          });
+        }
+      }
+    });
+  };
+
+  const banUser = async (email: string, phone: string) => {
+    swal({
+      title: "آیا از بن کاربر اطمینان دارین؟",
+      icon: "warning",
+      buttons: ["نه", "آره"],
+    }).then(async (result) => {
+      if (result) {
+        const res = await fetch("/api/user/ban", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, phone }),
+        });
+
+        if (res.status === 200) {
+          swal({
+            title: "کاربر مورد نظر با موفقیت بن شد",
+            icon: "success",
+            buttons: "فهمیدم",
           }).then(() => {
             router.refresh();
           });
@@ -106,12 +130,20 @@ export default function DataTable({ users, title }: DataTableProps) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => removeUser(user._id)}
+                  >
                     حذف
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => banUser(user.email, user.phone)}
+                  >
                     بن
                   </button>
                 </td>
