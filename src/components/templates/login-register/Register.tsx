@@ -5,6 +5,8 @@ import { json } from "stream/consumers";
 import swal from "sweetalert";
 import { showSwal } from "@/utils/helpers";
 import { validateEmail, validatePassword, validatePhone } from "@/utils/auth";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 type RegisterProps = {
   showloginForm: () => void;
@@ -17,6 +19,7 @@ const Register: FC<RegisterProps> = ({ showloginForm }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const hideOtpForm = () => setIsRegisterWithOtp(false);
 
@@ -66,6 +69,7 @@ const Register: FC<RegisterProps> = ({ showloginForm }) => {
         "ورود به پنل کاربری",
         "صحیح",
       ]);
+      router.replace("/p-user");
     } else if (res.status === 422) {
       showSwal("کاربری با این اطلاعات از قبل وجود دارد", "error", [
         "تلاش مجدد",
