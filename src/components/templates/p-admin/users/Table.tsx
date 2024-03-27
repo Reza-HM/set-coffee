@@ -33,20 +33,21 @@ export default function DataTable({ users, title }: DataTableProps) {
   };
 
   const removeUser = async (userID: string) => {
-    // Confirm ✅
-    // Validation (You) ✅
-
     swal({
       title: "آیا از حذف کاربر اطمینان دارین؟",
       icon: "warning",
       buttons: ["نه", "آره"],
     }).then(async (result) => {
       if (result) {
-        const res = await fetch(`/api/user/${userID}`, {
+        const res = await fetch("/api/user", {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: userID }),
         });
 
-        if (res.ok) {
+        if (res.status === 200) {
           swal({
             title: "کاربر مورد نظر با موفقیت حذف شد",
             icon: "success",
@@ -61,7 +62,7 @@ export default function DataTable({ users, title }: DataTableProps) {
 
   const banUser = async (email: string, phone: string) => {
     swal({
-      title: "آیا از بن کاربر اطمینان دارین؟",
+      title: "آیا از بن کاربر اطمینان دارید؟",
       icon: "warning",
       buttons: ["نه", "آره"],
     }).then(async (result) => {
@@ -78,7 +79,7 @@ export default function DataTable({ users, title }: DataTableProps) {
           swal({
             title: "کاربر مورد نظر با موفقیت بن شد",
             icon: "success",
-            buttons: "فهمیدم",
+            buttons: ["فهمیدم", "بستن"],
           }).then(() => {
             router.refresh();
           });

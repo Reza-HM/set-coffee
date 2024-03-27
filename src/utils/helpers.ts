@@ -1,6 +1,10 @@
 import swal from "sweetalert";
 
-const showSwal = (title: string, icon: string, buttons: string[]) => {
+const showSwal = (
+  title: string,
+  icon: string | undefined,
+  buttons: string[]
+) => {
   swal({ title, icon, buttons });
 };
 

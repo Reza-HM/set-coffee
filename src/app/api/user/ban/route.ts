@@ -1,7 +1,8 @@
 import connectToDB from "@/configs/db";
-import BanModel from "@/models/Ban";
+import BanModel from "../../../../../models/Ban";
+import { NextRequest } from "next/server";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   try {
     connectToDB();
     const body = await req.json();
