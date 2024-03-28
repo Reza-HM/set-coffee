@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./table.module.css";
 import { useRouter } from "next/navigation";
 import { showSwal } from "@/utils/helpers";
+import swal from "sweetalert";
 
 type DataTableProps = {
   tickets: any[];
@@ -14,6 +15,38 @@ export default function DataTable({ tickets, title }: DataTableProps) {
 
   const showTicketBody = (body: string) => {
     showSwal(body, undefined, ["فهمیدم", "بستن"]);
+  };
+
+  const answerToTicket = async (ticket: any) => {
+    swal({
+      title: "لطفا پاسخ مورد نظر را وارد کنید:",
+      content: "input",
+      buttons: "ثبت پاسخ",
+    }).then(async (answerText) => {
+      if (answerText) {
+        const answer = {
+          ...ticket,
+          body: answerText,
+          ticketID: ticket._id,
+        };
+
+        const res = await fetch("/api/tickets/answer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(answer),
+        });
+
+        if (res.status === 201) {
+          swal({
+            title: "پاسخ مورد نظر ثبت شد",
+            icon: "success",
+            buttons: "فهمیدم",
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -59,7 +92,11 @@ export default function DataTable({ tickets, title }: DataTableProps) {
                   </button>
                 </td>
                 <td>
-                  <button type="button" className={styles.delete_btn}>
+                  <button
+                    type="button"
+                    className={styles.delete_btn}
+                    onClick={() => answerToTicket(ticket)}
+                  >
                     پاسخ
                   </button>
                 </td>
