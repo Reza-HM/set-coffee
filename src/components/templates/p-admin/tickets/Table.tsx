@@ -86,11 +86,7 @@ export default function DataTable({ tickets, title }: DataTableProps) {
                     مشاهده
                   </button>
                 </td>
-                <td>
-                  <button type="button" className={styles.edit_btn}>
-                    حذف
-                  </button>
-                </td>
+
                 <td>
                   <button
                     type="button"

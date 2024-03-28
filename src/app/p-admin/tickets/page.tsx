@@ -9,7 +9,7 @@ import DepartmentModel from "../../../../models/Department";
 
 const page = async () => {
   connectToDB();
-  const tickets = await TicketModel.find({})
+  const tickets = await TicketModel.find({ isItAnswer: false })
     .sort({ _id: -1 })
     .populate({ path: "user", model: UserModel })
     .populate({ path: "department", model: DepartmentModel })
@@ -19,7 +19,7 @@ const page = async () => {
     <Layout>
       <main>
         {tickets.length === 0 ? (
-          <p className={styles.empty}>کاربری وجود ندارد</p>
+          <p className={styles.empty}>تیکتی وجود ندارد</p>
         ) : (
           <Table
             tickets={JSON.parse(JSON.stringify(tickets))}

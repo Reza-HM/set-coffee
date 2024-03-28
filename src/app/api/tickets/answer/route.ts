@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       priority,
       user: user?._id,
       hasAnswer: false,
-      isAnswer: true,
+      isItAnswer: true,
       mainTicket: ticketID,
     });
 
