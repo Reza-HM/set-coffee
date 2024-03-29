@@ -26,17 +26,44 @@ const AddToCart = ({ name, price, productID }: AddToCartProps) => {
       cartString ? JSON.parse(cartString) : []
     ) as CartItemType[];
 
-    const cartItem = {
-      id: productID,
-      name,
-      price,
-      count,
-    };
+    if (cart.length) {
+      const isInCart = cart.some((item) => item.id === productID);
 
-    cart.push(cartItem);
+      if (isInCart) {
+        cart.forEach((item) => {
+          if (item.id === productID) {
+            item.count = item.count + count;
+          }
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
+        showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
+      } else {
+        const cartItem = {
+          id: productID,
+          name,
+          price,
+          count,
+        };
+
+        cart.push(cartItem);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
+      }
+    } else {
+      const cartItem = {
+        id: productID,
+        name,
+        price,
+        count,
+      };
+
+      cart.push(cartItem);
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
+    }
   };
 
   return (
