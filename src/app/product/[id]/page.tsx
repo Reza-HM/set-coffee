@@ -32,7 +32,7 @@ const product = async ({ params }: { params: { id: string } }) => {
         <div className={styles.main}>
           <Details
             product={JSON.parse(JSON.stringify(product))}
-            userID={user?._id}
+            userID={String(user?._id)}
           />
           <Gallery />
         </div>

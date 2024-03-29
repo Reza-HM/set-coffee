@@ -7,6 +7,7 @@ import Breadcrumb from "./Breadcrumb";
 import { IProduct } from "../../../../models/Product";
 import { FC } from "react";
 import AddToWishlist from "./AddToWishlist";
+import AddToCart from "./AddToCart";
 
 interface IProducts extends IProduct {
   _id: string;
@@ -45,12 +46,11 @@ const Details: FC<DetailsProps> = ({ product, userID }) => {
         <p>موجود در انبار</p>
       </div>
 
-      <div className={styles.cart}>
-        <button>افزودن به سبد خرید</button>
-        <div>
-          <span>-</span>1<span>+</span>
-        </div>
-      </div>
+      <AddToCart
+        productID={product._id}
+        name={product.name}
+        price={product.price}
+      />
 
       <section className={styles.wishlist}>
         <AddToWishlist product={product._id} user={userID} />
