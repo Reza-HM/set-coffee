@@ -37,7 +37,7 @@ const AddToCart = ({ name, price, productID }: AddToCartProps) => {
         });
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم");
+        showSwal("محصول با موفقیت به سبد خرید اضافه شد", "success", "فهمیدم" );
       } else {
         const cartItem = {
           id: productID,
